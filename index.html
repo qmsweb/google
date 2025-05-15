@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محرك بحث - نموذج جوجل</title>
+    <style>
+        /* Reset وتنسيقات عامة */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: #202124;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* شريط التنقل العلوي */
+        .nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 6px 20px;
+            height: 60px;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .nav-link {
+            color: rgba(0, 0, 0, 0.87);
+            text-decoration: none;
+            font-size: 13px;
+        }
+        
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        
+        .apps-icon, .user-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .apps-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .apps-icon:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .user-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #8ab4f8;
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        /* المنطقة الرئيسية */
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 20px;
+            margin-top: -100px;
+        }
+        
+        .logo {
+            margin-bottom: 30px;
+        }
+        
+        .logo img {
+            width: 272px;
+            height: 92px;
+        }
+        
+        /* مربع البحث */
+        .search-container {
+            width: 100%;
+            max-width: 584px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            width: 100%;
+            height: 46px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            padding: 0 20px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: none;
+            transition: box-shadow 0.3s;
+        }
+        
+        .search-box:hover, .search-box:focus {
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            border-color: rgba(223, 225, 229, 0);
+        }
+        
+        .search-icon, .mic-icon, .camera-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
+        
+        .search-icon {
+            right: 20px;
+            color: #9aa0a6;
+        }
+        
+        .mic-icon {
+            left: 20px;
+            cursor: pointer;
+        }
+        
+        .camera-icon {
+            left: 60px;
+            cursor: pointer;
+        }
+        
+        /* أزرار البحث */
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-button, .lucky-button {
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            color: #3c4043;
+            font-size: 14px;
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+        
+        .search-button:hover, .lucky-button:hover {
+            border: 1px solid #dadce0;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* التذييل */
+        .footer {
+            background-color: #f2f2f2;
+            width: 100%;
+            padding: 15px 20px;
+        }
+        
+        .footer-top {
+            padding: 15px 0;
+            border-bottom: 1px solid #dadce0;
+            color: #70757a;
+            font-size: 15px;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding-top: 15px;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-link {
+            color: #70757a;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* تصميم متجاوب للجوال */
+        @media (max-width: 768px) {
+            .logo img {
+                width: 200px;
+                height: auto;
+            }
+            
+            .search-container {
+                max-width: 90%;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo img {
+                width: 150px;
+            }
+            
+            .search-box {
+                height: 40px;
+                font-size: 14px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .search-button, .lucky-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <nav class="nav">
+        <div class="nav-links">
+            <a href="#" class="nav-link">صور</a>
+            <a href="#" class="nav-link">Gmail</a>
+            <div class="apps-icon">
+                <svg focusable="false" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path>
+                </svg>
+            </div>
+            <div class="user-icon">م</div>
+        </div>
+    </nav>
+    
+    <!-- المنطقة الرئيسية -->
+    <main class="main">
+        <div class="logo">
+            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google">
+        </div>
+        
+        <div class="search-container">
+            <svg class="mic-icon" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#4285F4" d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
+                <path fill="#34A853" d="m11 18.08h2v3.92h-2z"></path>
+                <path fill="#EA4335" d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
+                <path fill="#FBBC05" d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
+            </svg>
+            <svg class="camera-icon" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#34A853" d="M10 2v2h4V2h-4z"></path>
+                <path fill="#EA4335" d="M4 6h16l-1.58 1.82-.42.18H6l-.42-.18L4 6z"></path>
+                <path fill="#4285F4" d="M20 22H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2z"></path>
+                <path fill="#FBBC05" d="M12 18a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+            </svg>
+            <input type="text" class="search-box" aria-label="بحث">
+            <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+            </svg>
+        </div>
+        
+       <div class="buttons">
+    <button class="search-button">بحث Google</button>
+    <button class="lucky-button">ضربة حظ</button>
+</div>
+
+<div id="result" style="margin-top: 20px; font-size: 32px; font-weight: bold; color: #4285F4;"></div>
+
+<script>
+    const searchBtn = document.querySelector('.search-button');
+    const resultDiv = document.getElementById('result');
+
+    searchBtn.addEventListener('click', function () {
+        resultDiv.textContent = 'روح لقحبتك ChatGPT يالكلب';
+    });
+</script>
+
+    </main>    
+    <!-- التذييل -->
+    <footer class="footer">
+        <div class="footer-top">وحوفج يا عمان</div>
+        <div class="footer-bottom">
+            <div class="footer-links">
+                <a href="#" class="footer-link">حول</a>
+                <a href="#" class="footer-link">الإعلانات</a>
+                <a href="#" class="footer-link">للشركات</a>
+                <a href="#" class="footer-link">كيف يعمل محرك البحث؟</a>
+            </div>
+            <div class="footer-links">
+                <a href="#" class="footer-link">خصوصية</a>
+                <a href="#" class="footer-link">بنود</a>
+                <a href="#" class="footer-link">الإعدادات</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
